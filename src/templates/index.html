@@ -1,58 +1,150 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>Iris - Model prediction</title>
+    <meta charset="UTF-8">
+    <title>Predictor de Precio de Autos Usados</title>
+    
+    <!-- Font Awesome para íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 40px;
-            background-color: #f4f4f4;
+            background-color: #6debb0; /* Fondo beige claro */
+            margin: 0;
+            padding: 0;
         }
-        form {
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
             background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
+            padding: 30px;
+            border-radius: 25px; /* Borde más redondeado */
+            box-shadow: 0px 0px 20px rgba(0,0,0,0.15);
         }
-        input[type="number"] {
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        label i {
+            margin-right: 8px;
+            color: #007BFF;
+        }
+
+        input[type="number"], select {
             width: 100%;
             padding: 10px;
-            margin: 10px 0;
-            border-radius: 4px;
+            margin-top: 5px;
+            border-radius: 8px;
             border: 1px solid #ccc;
         }
+
         input[type="submit"] {
-            background-color: #333;
+            margin-top: 25px;
+            background-color: #007BFF;
             color: #fff;
-            padding: 10px 15px;
+            padding: 12px;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
             cursor: pointer;
+            width: 100%;
+            font-size: 16px;
         }
+
         input[type="submit"]:hover {
-            background-color: #555;
+            background-color: #0056b3;
         }
+
         h3 {
-            margin-top: 20px;
-            background-color: #fff;
-            padding: 10px;
-            border-radius: 4px;
+            text-align: center;
+            margin-top: 30px;
+            padding: 15px;
+            border-radius: 10px;
+            color: #2d572c;
         }
     </style>
 </head>
 <body>
-    <h2>Introduce the values</h2>
-    
-    <form action="/" method="post">
-        Petal width: <input type="number" step="any" name="val1" required><br><br>
-        Petal length: <input type="number" step="any" name="val2" required><br><br>
-        Sepal width: <input type="number" step="any" name="val3" required><br><br>
-        Sepal length: <input type="number" step="any" name="val4" required><br><br>
-        <input type="submit" value="Predict">
-    </form>
-    
-    {% if prediction != None %}
-        <h3>Prediction: {{ prediction }}</h3>
-    {% endif %}
+    <div class="container">
+        <h1>Predictor de Precio de Autos Usados</h1>
+
+        <form action="/" method="post">
+            <label><i class="fas fa-calendar-alt"></i> Año del Vehículo</label>
+            <input type="number" step="any" name="val1" value="1980" min="1980" max="2025" required>
+
+            <label><i class="fas fa-tachometer-alt"></i> Kilometraje (Odómetro)</label>
+            <input type="number" step="any" name="val2" required>
+
+            <label><i class="fas fa-car"></i> Fabricante (Manufacturer)</label>
+            <select name="val3" required>
+                <option value="1">Ford</option>
+                <option value="2">Chevrolet</option>
+                <option value="3">Kia</option>
+                <option value="4">Toyota</option>
+                <option value="5">Hyundai</option>
+            </select>
+
+            <label><i class="fas fa-car-side"></i> Modelo</label>
+            <input type="number" step="any" name="val4" required>
+
+            <label><i class="fas fa-wrench"></i> Estado del Vehículo</label>
+            <select name="val5" required>
+                <option value="1">Condition</option>
+                <option value="2">Excellent</option>
+                <option value="3">Like new</option>
+                <option value="4">Fair</option>
+                <option value="5">New</option>
+                <option value="6">Salvage</option>
+            </select>
+
+            <label><i class="fas fa-gas-pump"></i> Tipo de Combustible</label>
+            <select name="val6" required>
+                <option value="1">Gas</option>
+                <option value="2">Other</option>
+                <option value="3">Diesel</option>
+                <option value="4">Hybrid</option>
+                <option value="5">Electric</option>
+            </select>
+
+            <label><i class="fas fa-file-alt"></i> Estatus de los Documentos</label>
+            <select name="val7" required>
+                <option value="1">Clean</option>
+                <option value="2">Rebuilt</option>
+                <option value="3">Salvage</option>
+                <option value="4">Lien</option>
+                <option value="5">Missing</option>
+                <option value="6">Parts Only</option>
+            </select>
+
+            <label><i class="fas fa-cogs"></i> Tipo de Caja</label>
+            <select name="val8" required>
+                <option value="1">Automatic</option>
+                <option value="2">Other</option>
+                <option value="3">Manual</option>
+            </select>
+
+            <label><i class="fas fa-map-marker-alt"></i> Entidad Estatal</label>
+            <input type="number" step="any" name="val9" required>
+
+            <label><i class="fas fa-clock"></i> Fecha de Publicado</label>
+            <input type="number" step="any" name="val10" required>
+
+            <input type="submit" value="Predecir Precio">
+        </form>
+
+        {% if prediction != None %}
+            <h3>Predicción del Precio: {{ prediction }}</h3>
+        {% endif %}
+    </div>
 </body>
 </html>
