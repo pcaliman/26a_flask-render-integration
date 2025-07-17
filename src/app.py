@@ -22,11 +22,11 @@ def index():
         val7 = float(request.form["val7"])
         val8 = float(request.form["val8"])
         val9 = float(request.form["val9"])        
+        val10 = float(request.form["val10"])     
 
 
 
-
-        data = [[val1, val2, val3, val4,val5, val6, val7, val8, val9]]
+        data = [[val1, val2, val3, val4,val5, val6, val7, val8, val9, val10]]
         prediction = str(model.predict(data)[0])
         pred_class = class_dict[prediction]
     else:
