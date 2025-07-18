@@ -7,9 +7,9 @@ from datetime import datetime
 app = Flask(__name__)
 
 # Cargar la lista de modelos únicos
-modelos = joblib.load("./modelos_unicos.pkl")
-fabricantes = joblib.load("./Fabricantes_unicos.pkl")
-estados = joblib.load("./State_unicos.pkl")
+modelos = joblib.load("/modelos_unicos.pkl")
+fabricantes = joblib.load("/Fabricantes_unicos.pkl")
+estados = joblib.load("/State_unicos.pkl")
 
 preprocessor = joblib.load("../models/preprocessor.pkl")
 scaler = joblib.load("../models/scaler.pkl")
