@@ -1,6 +1,8 @@
 from flask import Flask, request, render_template, jsonify
 from pickle import load
 import joblib
+import pandas as pd
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -8,6 +10,15 @@ app = Flask(__name__)
 modelos = joblib.load("./modelos_unicos.pkl")
 fabricantes = joblib.load("./Fabricantes_unicos.pkl")
 estados = joblib.load("./State_unicos.pkl")
+
+preprocessor = joblib.load("../models/preprocessor.pkl")
+scaler = joblib.load("../models/scaler.pkl")
+
+
+def formatear_fecha(fecha_str):
+    dt = datetime.strptime(fecha_str, "%Y-%m-%d")
+    return dt.strftime("%Y-%m-%dT00:00:00-0400")
+
 
 @app.route("/autocomplete/modelos")
 def autocomplete_modelos():
@@ -39,6 +50,8 @@ class_dict = {
 
 @app.route("/", methods = ["GET", "POST"])
 def index():
+
+    pred_class = None
     if request.method == "POST":
         
         modelo = request.form.get("modelo", "")
@@ -71,9 +84,28 @@ def index():
 
         data = [[yearr, odometerr, fabricante, modelo, condittionn, fuell, tituloo, caja, statee, fechaa]]
 
+        fecha_cruda = request.form.get("fechaa")
+        fecha_formateada = formatear_fecha(fecha_cruda)
+
+
+        columnas = ['year', 'manufacturer', 'model', 'condition', 'fuel', 'odometer', 'title_status', 'transmission', 'state', 'posting_date']
+        dato_crudo = [yearr, fabricante, modelo, condittionn, fuell, odometerr, tituloo, caja, statee, fecha_formateada]
+#dato_crudo = [2006, 'ram', '2500', 'good', 'gas', 129761, 'clean', 'automatic', 'in', '2021-04-29T16:03:59-0400']
+
+
+        df_test = pd.DataFrame([dato_crudo], columns=columnas)
+        print(df_test.head())
+
+        X_test_processed = preprocessor.transform(df_test)
+        X_test_scaled = scaler.transform(X_test_processed)
+
+
+
         #print(data)
        # prediction = str(model.predict(data)[0])
        # pred_class = class_dict[prediction]
+
+        pred_class="1234"
     else:
         pred_class = None
     
