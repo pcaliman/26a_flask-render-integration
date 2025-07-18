@@ -13,7 +13,7 @@ estados = joblib.load("./State_unicos.pkl")
 
 preprocessor = joblib.load("../models/preprocessor.pkl")
 scaler = joblib.load("../models/scaler.pkl")
-
+modelopredictor = joblib.load("../models/modelo_random_forest_Omega10.pkl")
 
 def formatear_fecha(fecha_str):
     dt = datetime.strptime(fecha_str, "%Y-%m-%d")
@@ -68,17 +68,17 @@ def index():
         fechaa = request.form["fechaa"]
 
         # Puedes imprimir para verificar que llegan bien:
-        print(">>> Datos recibidos:")
-        print("Año:", yearr)
-        print("Odómetro:", odometerr)
-        print("Fabricante:", fabricante)
-        print("Modelo:", modelo)
-        print("Condición:", condittionn)
-        print("Combustible:", fuell)
-        print("Título:", tituloo)
-        print("Caja:", caja)
-        print("Estado:", statee)
-        print("Fecha:", fechaa)
+        #print(">>> Datos recibidos:")
+        #print("Año:", yearr)
+        #print("Odómetro:", odometerr)
+        #print("Fabricante:", fabricante)
+        #print("Modelo:", modelo)
+        #print("Condición:", condittionn)
+        #print("Combustible:", fuell)
+        #print("Título:", tituloo)
+        #print("Caja:", caja)
+        #print("Estado:", statee)
+        #print("Fecha:", fechaa)
 
 
 
@@ -94,18 +94,18 @@ def index():
 
 
         df_test = pd.DataFrame([dato_crudo], columns=columnas)
-        print(df_test.head())
+        #print(df_test.head())
 
         X_test_processed = preprocessor.transform(df_test)
         X_test_scaled = scaler.transform(X_test_processed)
-
+        y_pred = modelopredictor.predict(X_test_scaled)
 
 
         #print(data)
        # prediction = str(model.predict(data)[0])
        # pred_class = class_dict[prediction]
 
-        pred_class="1234"
+        pred_class=int(y_pred)
     else:
         pred_class = None
     
